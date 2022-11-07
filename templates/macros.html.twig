@@ -1,0 +1,7 @@
+{% macro displayFlashes(type) %}
+    {% for message in app.flashes(type) %}
+        <div class="alert alert-{{ type }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
