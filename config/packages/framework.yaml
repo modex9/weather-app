@@ -17,6 +17,12 @@ framework:
     php_errors:
         log: true
 
+    http_client:
+        scoped_clients:
+            position.stack.client:
+                scope: 'http://api\.positionstack\.com/v1/'
+                base_uri: 'http://api.positionstack.com/v1/'
+
 when@test:
     framework:
         test: true
