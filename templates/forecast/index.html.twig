@@ -15,4 +15,12 @@
             </div>
             {{ form_end(form) }}
     </div>
+    {% if location and forecastTemperature %}
+        <div class="col-4 container-fluid mt-4">
+            <h4>Results:</h4>
+            <p>Input location: <b>{{ location.country }} - {{ location.city }}</b></p>
+            <p>Determined location: LAT: <b>{{ location.latitude }}</b> LONG: <b>{{ location.longitude }}</b></p>
+            <p>Weather forecast : <b>{{ location.temperature }} &#8451;</b></p>
+        </div>
+    {% endif %}
 {% endblock %}

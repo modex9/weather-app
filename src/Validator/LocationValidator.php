@@ -13,7 +13,7 @@ class LocationValidator extends ConstraintValidator
             return;
         }
         
-        if(!preg_match("/^[a-zA-Z]+$/", $value))
+        if(!preg_match("/^[a-zA-Z\s]*$/", $value))
         {
             $this->context->buildViolation($constraint->message)
             ->setParameter('{{ value }}', $value)

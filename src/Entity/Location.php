@@ -31,6 +31,9 @@ class Location
     #[ORM\Column]
     private ?float $longitude = null;
 
+    #[ORM\Column]
+    private ?float $temperature = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +83,18 @@ class Location
     public function setLongitude(float $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getTemperature(): ?float
+    {
+        return $this->temperature;
+    }
+
+    public function setTemperature(float $temperature): self
+    {
+        $this->temperature = $temperature;
 
         return $this;
     }
