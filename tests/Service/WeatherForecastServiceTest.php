@@ -21,7 +21,7 @@ class WeatherForecastServiceTest extends KernelTestCase
      */
     public function testForecastResults(WeatherForecastService $weatherForecastService)
     {
-        // It's deifficult to test in general, because weather temperature is not stable and hard to predict, it could be negative or positive.
+        // It's difficult to test in general, because weather temperature is not stable and hard to predict, it could be negative or positive.
         // But we can assume that in places like Saudi Arabia, the temnprature is always positive.
 
         // Abu Dhabi

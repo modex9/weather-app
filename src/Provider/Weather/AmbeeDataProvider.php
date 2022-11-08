@@ -7,20 +7,19 @@ use App\Contracts\WeatherProviderInterface;
 use App\Service\RedisCacheService;
 use Symfony\Component\HttpClient\Exception\ClientException;
 
-class OpenWeatherProvider implements WeatherProviderInterface
+class AmbeeDataProvider implements WeatherProviderInterface
 {
-    public function __construct(private HttpClientInterface $openWeatherClient, private RedisCacheService $redisCache, private string $apiKey) {}
+    public function __construct(private HttpClientInterface $ambeeDataClient, private RedisCacheService $redisCache) {}
 
     public function getTemperatureByGeoclocation(float $lat, float $long) : float
     {
-        $cacheKey = get_class($this) . 'lat' . $lat . 'long' . $long;
+        $cacheKey = get_class($this) . '_lat' . $lat . 'long' . $long;
         return $this->redisCache->getData($cacheKey, function() use ($lat, $long) {
-            $response = $this->openWeatherClient->request('GET', 'weather', [ 
+            $response = $this->ambeeDataClient->request('GET', 'weather/latest/by-lat-lng', [ 
                 'query' => [
-                    'appid' => $this->apiKey,
-                    'units' => 'metric',
                     'lat' => $lat,
-                    'lon' => $long,
+                    'lng' => $long,
+                    'units' => 'si'
                 ]
             ]);
     
@@ -31,8 +30,7 @@ class OpenWeatherProvider implements WeatherProviderInterface
             }
     
             $json = json_decode($response->getContent());
-    
-            $temperature = $json->main->temp ?? 0;
+            $temperature = $json->data->temperature ?? 0;
 
             return $temperature;
         }, static::WEATHER_CACHE_EXPIRY);

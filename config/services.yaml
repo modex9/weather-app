@@ -33,6 +33,11 @@ services:
             - "@open.weather.client"
             - '@App\Service\RedisCacheService'
             - '%env(OPENWEATHER_API_KEY)%'
+    App\Provider\Weather\AmbeeDataProvider:
+        public: true
+        arguments:
+            - "@ambee.data.client"
+            - '@App\Service\RedisCacheService'
     _instanceof:
         App\Contracts\WeatherProviderInterface:
             tags: ['app.weather.provider']

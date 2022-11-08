@@ -1,24 +1,24 @@
 <?php
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Provider\Weather\OpenWeatherProvider;
+use App\Provider\Weather\AmbeeDataProvider;
 use Symfony\Component\HttpClient\Exception\ClientException;
 
-class OpenWeatherProviderTest extends KernelTestCase
+class AmbeeDataProviderTest extends KernelTestCase
 {
-    public function testGetProvider(): OpenWeatherProvider
+    public function testGetProvider(): AmbeeDataProvider
     {
-        $openWeatherProvider = self::getContainer()->get(OpenWeatherProvider::class);
+        $ambeeDataProvider = self::getContainer()->get(AmbeeDataProvider::class);
         
-        self::assertNotNull($openWeatherProvider);
+        self::assertNotNull($ambeeDataProvider);
 
-        return $openWeatherProvider;
+        return $ambeeDataProvider;
     }
 
     /**
      * @depends testGetProvider
      */
-    public function testForecastResults(OpenWeatherProvider $openWeatherProvider)
+    public function testForecastResults(AmbeeDataProvider $ambeeDataProvider)
     {
         // It's difficult to test in general, because weather temperature is not stable and hard to predict, it could be negative or positive.
         // But we can assume that in places like Saudi Arabia, the temnprature is always positive.
@@ -27,7 +27,7 @@ class OpenWeatherProviderTest extends KernelTestCase
         $lat = 24.365906;
         $lng = 54.582223;
 
-        $temp = $openWeatherProvider->getTemperatureByGeoclocation($lat, $lng);
+        $temp = $ambeeDataProvider->getTemperatureByGeoclocation($lat, $lng);
 
         self::assertGreaterThan(0, $temp);
     }
@@ -35,26 +35,26 @@ class OpenWeatherProviderTest extends KernelTestCase
     /**
      * @depends testGetProvider
      */
-    public function testBadLatitude(OpenWeatherProvider $openWeatherProvider)
+    public function testBadLatitude(AmbeeDataProvider $ambeeDataProvider)
     {
         $lat = 24365906;
         $lng = 54.582223;
 
         $this->expectException(ClientException::class);
         $this->expectExceptionCode(400);
-        $openWeatherProvider->getTemperatureByGeoclocation($lat, $lng);
+        $ambeeDataProvider->getTemperatureByGeoclocation($lat, $lng);
     }
 
     /**
      * @depends testGetProvider
      */
-    public function testBadLongitude(OpenWeatherProvider $openWeatherProvider)
+    public function testBadLongitude(AmbeeDataProvider $ambeeDataProvider)
     {
         $lat = 24.365906;
         $lng = 54582223;
 
         $this->expectException(ClientException::class);
         $this->expectExceptionCode(400);
-        $openWeatherProvider->getTemperatureByGeoclocation($lat, $lng);
+        $ambeeDataProvider->getTemperatureByGeoclocation($lat, $lng);
     }
 }

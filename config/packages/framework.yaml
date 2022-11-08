@@ -25,6 +25,12 @@ framework:
             open.weather.client:
                 scope: 'https://api\.openweathermap\.org/data/2.5/'
                 base_uri: 'https://api.openweathermap.org/data/2.5/'
+            ambee.data.client:
+                scope: 'https://api\.ambeedata\.com/'
+                base_uri: 'https://api.ambeedata.com/'
+                headers:
+                    x-api-key: '%env(AMBEEDATA_API_KEY)%'
+                    Content-type: "application/json"
 
 when@test:
     framework:
