@@ -20,11 +20,23 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    # add more service definitions when explicit configuration is needed
     App\Service\GeocodingService:
         public: true
         arguments:
             - "@position.stack.client"
             - '@App\Service\RedisCacheService'
             - '%env(POSITION_STACK_API_KEY)%'
-    # add more service definitions when explicit configuration is needed
+    App\Provider\Weather\OpenWeatherProvider:
+        public: true
+        arguments:
+            - "@open.weather.client"
+            - '@App\Service\RedisCacheService'
+            - '%env(OPENWEATHER_API_KEY)%'
+    _instanceof:
+        App\Contracts\WeatherProviderInterface:
+            tags: ['app.weather.provider']
+    App\Service\WeatherForecastService:
+        arguments:
+            $weatherProviders: !tagged_iterator app.weather.provider
     # please note that last definitions always *replace* previous ones

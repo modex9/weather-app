@@ -22,6 +22,9 @@ framework:
             position.stack.client:
                 scope: 'http://api\.positionstack\.com/v1/'
                 base_uri: 'http://api.positionstack.com/v1/'
+            open.weather.client:
+                scope: 'https://api\.openweathermap\.org/data/2.5/'
+                base_uri: 'https://api.openweathermap.org/data/2.5/'
 
 when@test:
     framework:

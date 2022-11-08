@@ -11,11 +11,7 @@ use App\Utils\DataKeys;
 
 class GeocodingService
 {
-    public function __construct(private HttpClientInterface $positionStackClient, private RedisCacheService $redisCache, private string $accessKey) {
-        $this->positionStackClient = $positionStackClient;
-        $this->redisCache = $redisCache;
-        $this->accessKey = $accessKey;
-    }
+    public function __construct(private HttpClientInterface $positionStackClient, private RedisCacheService $redisCache, private string $accessKey) {}
 
     public function getGeocodingData(Location $location) : array
     {

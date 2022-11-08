@@ -10,9 +10,7 @@ class RedisCacheService
 {
     CONST CACHE_DEFAULT_EXPIRY = 3600;
 
-    public function __construct(private CacheInterface $cache) {
-        $this->cache = $cache;
-    }
+    public function __construct(private CacheInterface $cache) {}
 
     public function getData(string $key, Closure $closure, int $expiry = 0) : mixed
     {
