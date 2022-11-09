@@ -13,7 +13,7 @@ class AmbeeDataProvider implements WeatherProviderInterface
 
     public function getTemperatureByGeoclocation(float $lat, float $long) : float
     {
-        $cacheKey = get_class($this) . '_lat' . $lat . 'long' . $long;
+        $cacheKey = str_replace("\\", '', get_class($this)) . '_lat' . $lat . 'long' . $long;
         return $this->redisCache->getData($cacheKey, function() use ($lat, $long) {
             $response = $this->ambeeDataClient->request('GET', 'weather/latest/by-lat-lng', [ 
                 'query' => [

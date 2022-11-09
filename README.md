@@ -14,11 +14,31 @@ The following guide assumes that developer has knowledge of:
 #### The guide to register new weather data provider:
  - Get the API key of the service, put into **`.env`** file and name it **`{DATA_PROVIDER_NAME}_API_KEY`**
  - In **config/packages/framework.yaml** define a HTTP client for your provider. If provider authenticates with header, you can configure authentication by passing the API key from **`.env`**
- **_('%env({DATA_PROVIDER_NAME}_API_KEY)%')_** into headers section, matched by the header name, that your data provider requires.
+ (_**'%env({DATA_PROVIDER_NAME}_API_KEY)%'**_) into headers section, matched by the header name, that your data provider requires.
  - In **config/services.yaml** define your service. Arguments:
     - **HTTP client** defined in the second step.
     - **RedisCacheService** (recommended, unless you don't have Redis server)
     - **API key** - this is necessary, only if your data provider authenticates you through query/POST data, which you would have to pass to the HTTP client.
+ - Create your Provider class in `App\Provider\Weather` namespace. Class should follow conventions, but the most important thing is that class **must** implement `App\Contracts\WeatherProviderInterface`.
+ Make sure that returned temperature is Celsius. Most API's provide units paramter.
+
+### Launching App with Docker
+
+#### Requirements to launch the App on with Docker:
+ - Docker 20.10
+ - Docker Compose 1.26 or higher.
+ - PositionStack, OpenWeather, AmbeeData API keys.
+
+#### To launch the App follow these steps:
+   - Clone this repo or download the .zip of the repository.
+   - Open the directory where you cloned the project in the terminal.
+   - Inside `.env.example` file provide `POSITION_STACK_API_KEY`, `OPENWEATHER_API_KEY`, `AMBEEDATA_API_KEY` values.
+   - Rename the file `.env.example` to **`.env`**.
+   - Run `docker-compose up --build`
+   - Open `http://localhost:8080` to use the app.
+
+
+### Launching App with Symfony CLI
 
 #### Requirements to launch the App:
  - PHP 8.1
@@ -29,7 +49,7 @@ The following guide assumes that developer has knowledge of:
  - Redis Server && PHP-Redis module (you can switch to other types of caching in **`config/packages/cache.yaml`**. More info: [Cache](https://symfony.com/doc/current/cache.html))
  - PositionStack, OpenWeather, AmbeeData API keys.
 
-#### To launch this App follow these steps:
+#### To launch the App follow these steps:
  - Clone this repo or download the .zip of the repository.
  - Open the directory where you cloned the project in the terminal.
  - Run `composer install`
